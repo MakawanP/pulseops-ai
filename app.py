@@ -198,7 +198,7 @@ class PulseOpsHandler(BaseHTTPRequestHandler):
         self._send_bytes(status, encoded, "application/json; charset=utf-8")
 
     def _validate_origin(self) -> None:
-        """Reject cross-origin browser POST requests from non-loopback origins."""
+        """Reject cross-origin browser POST requests while allowing loopback and same-origin proxy hosts."""
         origin = (self.headers.get("Origin") or "").strip()
         if not origin:
             return
@@ -209,11 +209,29 @@ class PulseOpsHandler(BaseHTTPRequestHandler):
                 HTTPStatus.FORBIDDEN, "Malformed Origin header."
             ) from exc
         hostname = (parsed.hostname or "").lower()
-        if parsed.scheme not in ("http", "https") or hostname not in ALLOWED_LOOPBACK_HOSTS:
+        if parsed.scheme not in ("http", "https") or not hostname:
             raise _HTTPRequestError(
                 HTTPStatus.FORBIDDEN,
                 "Cross-origin POST requests are forbidden.",
             )
+        if hostname in ALLOWED_LOOPBACK_HOSTS:
+            return
+        # Allow strict same-origin requests behind reverse proxies / tunnels (e.g. Cloudflare Tunnel)
+        origin_netloc = parsed.netloc.lower()
+        req_host = (self.headers.get("Host") or "").strip().lower()
+        if req_host and origin_netloc == req_host:
+            return
+        extra_origins = {
+            item.strip().rstrip("/").lower()
+            for item in os.environ.get("PULSEOPS_ALLOWED_ORIGINS", "").split(",")
+            if item.strip()
+        }
+        if origin.rstrip("/").lower() in extra_origins:
+            return
+        raise _HTTPRequestError(
+            HTTPStatus.FORBIDDEN,
+            "Cross-origin POST requests are forbidden.",
+        )
 
     def _validate_json_content_type(self) -> None:
         """Require Content-Type: application/json on JSON POST routes to prevent simple-POST CSRF."""
