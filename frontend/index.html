@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PulseOps AI — Autonomous Financial &amp; Operational Data Workbench</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" aria-label="Primary navigation">
+      <div class="sidebar-brand">
+        <div class="brand-logo" aria-hidden="true">
+          <svg viewBox="0 0 32 32" width="28" height="28" fill="none">
+            <defs>
+              <linearGradient id="pulseBrandGrad" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#6366f1" />
+                <stop offset="100%" stop-color="#22d3ee" />
+              </linearGradient>
+            </defs>
+            <rect x="1" y="1" width="30" height="30" rx="8" fill="url(#pulseBrandGrad)" fill-opacity="0.16" stroke="url(#pulseBrandGrad)" stroke-width="1.5" />
+            <path d="M6.5 17.5H11L13.5 11L17.5 22L20.2 15.5H25.5" stroke="url(#pulseBrandGrad)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="25.5" cy="15.5" r="2" fill="#22d3ee" />
+          </svg>
+        </div>
+        <div class="brand-text">
+          <div class="brand-name">PulseOps <span class="brand-ai">AI</span></div>
+          <div class="brand-tagline">Autonomous FinOps</div>
+        </div>
+      </div>
+
+      <div class="sidebar-section-label">WORKBENCH</div>
+      <nav class="sidebar-nav" role="tablist" aria-orientation="vertical" aria-label="Workbench sections">
+        <button class="nav-item active" type="button" role="tab" aria-selected="true" aria-controls="panel-overview" tabindex="0" data-tab="overview" id="nav-overview">
+          <svg class="nav-icon" aria-hidden="true" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2.5" y="2.5" width="6" height="6" rx="1.5" />
+            <rect x="11.5" y="2.5" width="6" height="6" rx="1.5" />
+            <rect x="2.5" y="11.5" width="6" height="6" rx="1.5" />
+            <rect x="11.5" y="11.5" width="6" height="6" rx="1.5" />
+          </svg>
+          <span class="nav-label">Overview</span>
+          <span class="nav-badge nav-badge-rose" id="nav-badge-anomalies" hidden>0</span>
+        </button>
+
+        <button class="nav-item" type="button" role="tab" aria-selected="false" aria-controls="panel-data" tabindex="-1" data-tab="data" id="nav-data">
+          <svg class="nav-icon" aria-hidden="true" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round">
+            <ellipse cx="10" cy="4.75" rx="6.75" ry="2.5" />
+            <path d="M3.25 4.75V10C3.25 11.38 6.27 12.5 10 12.5C13.73 12.5 16.75 11.38 16.75 10V4.75" />
+            <path d="M3.25 10V15.25C3.25 16.63 6.27 17.75 10 17.75C13.73 17.75 16.75 16.63 16.75 15.25V10" />
+          </svg>
+          <span class="nav-label">Data &amp; SQL</span>
+          <span class="nav-badge nav-badge-neutral" id="nav-badge-rows" hidden>0</span>
+        </button>
+
+        <button class="nav-item" type="button" role="tab" aria-selected="false" aria-controls="panel-copilot" tabindex="-1" data-tab="copilot" id="nav-copilot">
+          <svg class="nav-icon" aria-hidden="true" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 2.5L11.7 7.1L16.5 8.8L11.7 10.5L10 15.1L8.3 10.5L3.5 8.8L8.3 7.1L10 2.5Z" />
+            <path d="M15.5 14L16.3 16L18.3 16.8L16.3 17.6L15.5 19.6L14.7 17.6L12.7 16.8L14.7 16L15.5 14Z" />
+          </svg>
+          <span class="nav-label">AI Copilot</span>
+          <span class="nav-badge nav-badge-indigo">SQL</span>
+        </button>
+
+        <button class="nav-item" type="button" role="tab" aria-selected="false" aria-controls="panel-workflows" tabindex="-1" data-tab="workflows" id="nav-workflows">
+          <svg class="nav-icon" aria-hidden="true" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="4.5" cy="5" r="2.2" />
+            <circle cx="15.5" cy="5" r="2.2" />
+            <circle cx="10" cy="15" r="2.2" />
+            <path d="M6.7 5H13.3M5.6 7L8.9 13.1M14.4 7L11.1 13.1" />
+          </svg>
+          <span class="nav-label">Workflows</span>
+          <span class="nav-badge nav-badge-neutral" id="nav-badge-workflows">3</span>
+        </button>
+
+        <button class="nav-item" type="button" role="tab" aria-selected="false" aria-controls="panel-evals" tabindex="-1" data-tab="evals" id="nav-evals">
+          <svg class="nav-icon" aria-hidden="true" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 2.25L16.5 4.8V9.6C16.5 13.85 13.75 16.9 10 18.25C6.25 16.9 3.5 13.85 3.5 9.6V4.8L10 2.25Z" />
+            <path d="M7.1 10.2L9.1 12.2L13.1 8" />
+          </svg>
+          <span class="nav-label">AI Evals</span>
+          <span class="nav-badge nav-badge-neutral" id="nav-badge-evals">--</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="engine-card">
+          <div class="engine-card-row">
+            <span class="status-dot status-dot-live" id="sidebar-engine-dot"></span>
+            <span class="engine-card-title">Deterministic Engine</span>
+          </div>
+          <p class="engine-card-desc">Zero-hallucination SQL math + traceable AI tool calls.</p>
+          <div class="engine-pills">
+            <span class="micro-pill">SQLite</span>
+            <span class="micro-pill">Read-Only Guard</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <div class="main-area">
+      <!-- Top Sticky Header -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <h1 class="page-title" id="topbar-title">Executive Overview</h1>
+          <span class="topbar-divider" aria-hidden="true"></span>
+          <p class="page-subtitle" id="topbar-subtitle">Real-time budget variance, anomaly detection &amp; SaaS spend intelligence</p>
+        </div>
+
+        <div class="topbar-actions">
+          <div class="db-status-pill" id="db-status-badge" title="Checking SQLite database status...">
+            <span class="status-dot status-dot-warn" id="db-status-dot"></span>
+            <span id="db-status-text">Connecting...</span>
+          </div>
+
+          <button class="btn btn-ghost btn-sm" type="button" id="btn-reset-demo" title="Reset SQLite database to clean demo seed data">
+            <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3.5 10A6.5 6.5 0 1 1 5.4 14.6" />
+              <path d="M3.5 14.8V10.5H7.8" />
+            </svg>
+            <span>Reset Demo Data</span>
+          </button>
+
+          <button class="btn btn-icon" type="button" id="btn-theme-toggle" aria-label="Toggle dark or light theme" title="Toggle Dark / Light theme">
+            <svg class="icon-sun" width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="10" cy="10" r="3.5" />
+              <path d="M10 2V4M10 16V18M4.34 4.34L5.76 5.76M14.24 14.24L15.66 15.66M2 10H4M16 10H18M4.34 15.66L5.76 14.24M14.24 5.76L15.66 4.34" />
+            </svg>
+            <svg class="icon-moon" width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16.6 12.6A6.8 6.8 0 0 1 7.4 3.4A7 7 0 1 0 16.6 12.6Z" />
+            </svg>
+          </button>
+
+          <button class="btn btn-primary btn-sm" type="button" id="btn-run-monthly-close">
+            <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M5.5 3.8L16 10L5.5 16.2V3.8Z" />
+            </svg>
+            <span>Run Monthly Close</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Tab Panels -->
+      <main class="content">
+        <!-- ==================== TAB 1: OVERVIEW ==================== -->
+        <section class="tab-panel active" id="panel-overview" role="tabpanel" aria-labelledby="nav-overview">
+          <!-- 5 Executive KPI Cards -->
+          <div class="kpi-grid" id="overview-kpis">
+            <article class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-label">Total Budget</span>
+                <span class="kpi-icon kpi-icon-indigo">
+                  <svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75">
+                    <rect x="2.5" y="4.5" width="15" height="11" rx="2" />
+                    <path d="M2.5 8.5H17.5" />
+                  </svg>
+                </span>
+              </div>
+              <div class="kpi-value tabular" id="kpi-total-budget">--</div>
+              <div class="kpi-meta" id="kpi-budget-meta">FY annual allocation across 5 depts</div>
+            </article>
+
+            <article class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-label">Actual Spend</span>
+                <span class="kpi-icon kpi-icon-cyan">
+                  <svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75">
+                    <path d="M3 14L8 9L11.5 12.5L17 6.5" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M13 6.5H17V10.5" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </span>
+              </div>
+              <div class="kpi-value tabular" id="kpi-total-actual">--</div>
+              <div class="kpi-meta tabular" id="kpi-eac-meta">Projected EAC: --</div>
+            </article>
+
+            <article class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-label">Net Variance</span>
+                <span class="pill pill-neutral tabular" id="kpi-variance-pill">--</span>
+              </div>
+              <div class="kpi-value tabular" id="kpi-net-variance">--</div>
+              <div class="kpi-meta" id="kpi-variance-meta">Actual vs. planned budget</div>
+            </article>
+
+            <article class="kpi-card">
+              <div class="kpi-header">
+                <span class="kpi-label">Anomalies &amp; Duplicates</span>
+                <span class="kpi-icon kpi-icon-rose">
+                  <svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75">
+                    <path d="M10 3L17.5 16.25H2.5L10 3Z" stroke-linejoin="round" />
+                    <path d="M10 8V11.5M10 14H10.01" stroke-linecap="round" />
+                  </svg>
+                </span>
+              </div>
+              <div class="kpi-value tabular" id="kpi-anomalies-total">--</div>
+              <div class="kpi-meta tabular" id="kpi-anomalies-meta">-- spikes · -- duplicate invoices</div>
+            </article>
+
+            <article class="kpi-card kpi-card-clickable" id="kpi-eval-card" tabindex="0" role="button" aria-label="AI Eval Pass Rate — open AI Evals and Reliability suite" title="Open AI Evals & Reliability suite">
+              <div class="kpi-header">
+                <span class="kpi-label">AI Eval Pass Rate</span>
+                <span class="pill pill-neutral" id="kpi-eval-pill">Pending</span>
+              </div>
+              <div class="kpi-value tabular" id="kpi-eval-score">--</div>
+              <div class="kpi-meta" id="kpi-eval-meta">Click to run live reliability evals</div>
+            </article>
+          </div>
+
+          <!-- Two Custom SVG Charts Side-by-Side -->
+          <div class="overview-charts-grid">
+            <section class="card chart-card">
+              <div class="card-header">
+                <div>
+                  <h2 class="card-title">Monthly Budget vs. Actual Spend</h2>
+                  <p class="card-subtitle">Grouped monthly execution bars with monthly actual spend trend line</p>
+                </div>
+                <div class="chart-legend">
+                  <span class="legend-item"><span class="legend-swatch swatch-budget"></span>Budget</span>
+                  <span class="legend-item"><span class="legend-swatch swatch-actual"></span>Actual</span>
+                  <span class="legend-item"><span class="legend-swatch swatch-over"></span>Over Plan</span>
+                  <span class="legend-item"><span class="legend-line"></span>Trend</span>
+                </div>
+              </div>
+              <div class="chart-body" id="chart-monthly-trend">
+                <div class="chart-skeleton">Loading monthly spend chart...</div>
+              </div>
+              <div class="monthly-summary-strip" id="monthly-summary-strip">
+                <div class="monthly-stat">
+                  <span class="monthly-stat-label">Avg / Month</span>
+                  <span class="monthly-stat-val tabular" id="ms-avg-spend">--</span>
+                </div>
+                <div class="monthly-stat">
+                  <span class="monthly-stat-label">Peak Month</span>
+                  <span class="monthly-stat-val tabular" id="ms-peak-month">--</span>
+                </div>
+                <div class="monthly-stat">
+                  <span class="monthly-stat-label">Over Plan</span>
+                  <span class="monthly-stat-val tabular" id="ms-over-months">--</span>
+                </div>
+                <div class="monthly-stat">
+                  <span class="monthly-stat-label">Utilization</span>
+                  <span class="monthly-stat-val tabular" id="ms-utilization">--</span>
+                </div>
+              </div>
+            </section>
+
+            <section class="card chart-card">
+              <div class="card-header">
+                <div>
+                  <h2 class="card-title">Department Variance &amp; EAC</h2>
+                  <p class="card-subtitle">Click a department to filter anomalies &amp; subscriptions</p>
+                </div>
+                <div class="card-header-right">
+                  <button class="btn btn-xs btn-ghost" type="button" id="btn-clear-dept-filter" hidden>Clear Filter</button>
+                  <span class="pill pill-neutral tabular" id="dept-count-badge">5 depts</span>
+                </div>
+              </div>
+              <div class="chart-body chart-body-compact" id="chart-dept-variance">
+                <div class="chart-skeleton">Loading department chart...</div>
+              </div>
+              <div class="table-wrap table-wrap-compact">
+                <table class="data-table data-table-compact" id="dept-breakdown-table">
+                  <thead>
+                    <tr>
+                      <th>Department</th>
+                      <th class="num">Budget</th>
+                      <th class="num">Actual</th>
+                      <th class="num">Variance</th>
+                      <th class="num">EAC</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="dept-breakdown-body">
+                    <tr><td colspan="6" class="empty-cell">Loading departments...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+
+          <!-- Bottom Grid: Anomalies Feed + Subscription Watchdog -->
+          <div class="overview-bottom-grid">
+            <section class="card">
+              <div class="card-header">
+                <div>
+                  <h2 class="card-title">Active Anomalies &amp; Duplicate Invoices</h2>
+                  <p class="card-subtitle" id="anomalies-subtitle">Deterministic z-score spend spikes &amp; duplicate invoice audit</p>
+                </div>
+                <div class="filter-pills" id="anomaly-severity-filters" role="group" aria-label="Filter anomalies by severity">
+                  <button class="filter-chip active" type="button" data-severity="all" aria-pressed="true">All</button>
+                  <button class="filter-chip" type="button" data-severity="high" aria-pressed="false">High</button>
+                  <button class="filter-chip" type="button" data-severity="medium" aria-pressed="false">Medium</button>
+                </div>
+              </div>
+              <div class="feed-list" id="anomalies-feed">
+                <div class="empty-state">Loading anomalies...</div>
+              </div>
+            </section>
+
+            <section class="card">
+              <div class="card-header">
+                <div>
+                  <h2 class="card-title">Subscription Watchdog</h2>
+                  <p class="card-subtitle">Automated SaaS price-hike alerts &amp; &gt;90-day inactivity flags</p>
+                </div>
+                <div class="savings-callout">
+                  <span class="savings-callout-label">Annualized Savings Opp</span>
+                  <span class="savings-callout-value tabular" id="sub-savings-opp">$0</span>
+                </div>
+              </div>
+              <div class="table-wrap">
+                <table class="data-table" id="subscriptions-table">
+                  <thead>
+                    <tr>
+                      <th>Vendor</th>
+                      <th class="num">Monthly</th>
+                      <th class="num">Price Δ</th>
+                      <th class="num">Inactive</th>
+                      <th>Watchdog Flag</th>
+                    </tr>
+                  </thead>
+                  <tbody id="subscriptions-body">
+                    <tr><td colspan="5" class="empty-cell">Loading subscriptions...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <!-- ==================== TAB 2: DATA & SQL EXPLORER ==================== -->
+        <section class="tab-panel" id="panel-data" role="tabpanel" aria-labelledby="nav-data" hidden>
+          <div class="data-top-grid">
+            <!-- CSV ETL Ingestion Card -->
+            <section class="card">
+              <div class="card-header">
+                <div>
+                  <h2 class="card-title">CSV ETL Ingestion Pipeline</h2>
+                  <p class="card-subtitle">Schema validation, invoice deduplication &amp; real-time anomaly flagging</p>
+                </div>
+                <button class="btn btn-primary btn-sm" type="button" id="btn-load-sample-csv">
+                  <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10 3V13M6 9L10 13L14 9" />
+                    <path d="M3.5 16H16.5" />
+                  </svg>
+                  <span>Load &amp; Ingest Sample Q4 CSV</span>
+                </button>
+              </div>
+
+              <input type="file" id="csv-file-input" accept=".csv,text/csv" hidden />
+              <div class="dropzone" id="csv-dropzone" tabindex="0" role="button" aria-label="Drop CSV file here or click to choose file">
+                <div class="dropzone-icon" aria-hidden="true">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                    <path d="M12 18v-6M9.5 14.5L12 12l2.5 2.5" />
+                  </svg>
+                </div>
+                <div class="dropzone-title">Drag &amp; drop transactions CSV here, or <span class="link-accent">browse file</span></div>
+                <div class="dropzone-hint">Required columns: <code>tx_date</code>, <code>department</code>, <code>vendor</code>, <code>category</code>, <code>amount</code>, <code>invoice_id</code></div>
+              </div>
+
+              <div class="etl-banner" id="etl-result-banner" hidden></div>
+            </section>
+
+            <!-- ETL Run History & Tables Card -->
+            <section class="card">
+              <div class="card-header">
+                <div>
+                  <h2 class="card-title">ETL Run History</h2>
+                  <p class="card-subtitle">Audited ingestion runs persisted in SQLite</p>
+                </div>
+                <span class="pill pill-neutral tabular" id="etl-runs-count">0 runs</span>
+              </div>
+              <div class="table-wrap table-wrap-scroll-sm">
+                <table class="data-table data-table-compact">
+                  <thead>
+                    <tr>
+                      <th>File</th>
+                      <th class="num">Inserted</th>
+                      <th class="num">Dupes</th>
+                      <th class="num">Flags</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="etl-runs-body">
+                    <tr><td colspan="5" class="empty-cell">No ETL runs yet.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+
+          <!-- Schema Explorer Bar -->
+          <section class="card schema-strip-card">
+            <div class="schema-strip-header">
+              <span class="schema-strip-title">SQLite Tables</span>
+              <span class="schema-strip-hint">Click any table to preview its top 20 rows in the SQL Playground</span>
+            </div>
+            <div class="schema-chips" id="schema-table-chips">
+              <span class="empty-inline">Loading schema...</span>
+            </div>
+          </section>
+
+          <!-- Interactive Read-Only SQL Playground -->
+          <section class="card sql-card">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">Read-Only SQL Playground</h2>
+                <p class="card-subtitle">Sandboxed single-statement SELECT / CTE execution with server-side write protection</p>
+              </div>
+              <div class="sql-header-actions">
+                <span class="pill pill-cyan tabular" id="sql-latency-badge" hidden>0 ms</span>
+                <button class="btn btn-danger-soft btn-sm" type="button" id="btn-test-sql-guard" title="Executes DROP TABLE transactions; to demonstrate read-only safety guardrail">
+                  <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10 2.5L16.5 5V9.8C16.5 13.9 13.7 16.9 10 18.2C6.3 16.9 3.5 13.9 3.5 9.8V5L10 2.5Z" />
+                    <path d="M7.5 7.5L12.5 12.5M12.5 7.5L7.5 12.5" />
+                  </svg>
+                  <span>Test SQL Injection Guard</span>
+                </button>
+                <button class="btn btn-ghost btn-sm" type="button" id="btn-export-sql-csv" disabled>
+                  <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10 3V12.5M6.5 9L10 12.5L13.5 9" />
+                    <path d="M3.5 15.5H16.5" />
+                  </svg>
+                  <span>Export CSV</span>
+                </button>
+                <button class="btn btn-primary btn-sm" type="button" id="btn-run-sql">
+                  <svg width="13" height="13" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M5.5 3.8L16 10L5.5 16.2V3.8Z" />
+                  </svg>
+                  <span>Run SQL</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="preset-queries-bar" id="sql-preset-chips"></div>
+
+            <div class="sql-editor-wrap">
+              <textarea id="sql-editor" class="sql-textarea" rows="5" spellcheck="false" aria-label="SQL query editor" placeholder="SELECT department, COUNT(*) AS tx_count, ROUND(SUM(amount), 2) AS total_spend FROM transactions GROUP BY department ORDER BY total_spend DESC;"></textarea>
+              <div class="sql-editor-footer">
+                <span class="kbd-hint"><kbd>Ctrl</kbd> + <kbd>Enter</kbd> to execute</span>
+                <span class="sql-guard-note">Strict Read-Only Mode · Rejects DROP, DELETE, UPDATE, INSERT, PRAGMA, ATTACH &amp; multi-statements</span>
+              </div>
+            </div>
+
+            <!-- SQL Guard / Error Alert -->
+            <div class="sql-alert" id="sql-alert" hidden></div>
+
+            <!-- SQL Results Table -->
+            <div class="sql-results-meta" id="sql-results-meta" hidden>
+              <div class="sql-results-meta-left">
+                <span id="sql-row-count" class="tabular">0 rows returned</span>
+                <span class="pill pill-amber" id="sql-truncated-badge" hidden>Showing first 500 rows (truncated)</span>
+              </div>
+              <span class="muted-text" id="sql-col-count"></span>
+            </div>
+            <div class="table-wrap table-wrap-scroll-md" id="sql-results-wrap">
+              <div class="empty-state" id="sql-empty-state">Select a preset query or enter a <code>SELECT</code> statement and click <strong>Run SQL</strong>.</div>
+              <table class="data-table data-table-mono" id="sql-results-table" hidden>
+                <thead id="sql-results-thead"></thead>
+                <tbody id="sql-results-tbody"></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
+        <!-- ==================== TAB 3: AI COPILOT ==================== -->
+        <section class="tab-panel" id="panel-copilot" role="tabpanel" aria-labelledby="nav-copilot" hidden>
+          <!-- Provider Controls Bar -->
+          <section class="card copilot-config-bar">
+            <div class="copilot-config-group">
+              <label class="field-label" for="copilot-provider">Synthesis Provider</label>
+              <div class="select-wrap">
+                <select id="copilot-provider" class="input-select">
+                  <option value="local">Local Grounded Engine (No Key Needed)</option>
+                  <option value="gemini">Gemini (Google)</option>
+                  <option value="openai">OpenAI</option>
+                  <option value="anthropic">Anthropic</option>
+                </select>
+              </div>
+              <span class="pill pill-emerald" id="copilot-provider-status">Offline Ready</span>
+            </div>
+
+            <div class="copilot-config-group copilot-key-group">
+              <label class="field-label" for="copilot-api-key">Optional API Key <span class="muted-text">(memory only)</span></label>
+              <input type="password" id="copilot-api-key" class="input-text" autocomplete="off" placeholder="Optional for Gemini / OpenAI / Anthropic..." />
+            </div>
+          </section>
+
+          <!-- Starter Prompt Chips -->
+          <div class="starter-prompts" id="copilot-starter-prompts">
+            <span class="starter-prompts-label">Try asking:</span>
+            <button class="prompt-chip" type="button" data-prompt="Which departments are over budget and why?">Which departments are over budget and why?</button>
+            <button class="prompt-chip" type="button" data-prompt="Audit duplicate invoices and spend spikes">Audit duplicate invoices and spend spikes</button>
+            <button class="prompt-chip" type="button" data-prompt="Summarize SaaS subscription savings">Summarize SaaS subscription savings</button>
+            <button class="prompt-chip" type="button" data-prompt="Draft Q4 executive variance brief">Draft Q4 executive variance brief</button>
+          </div>
+
+          <!-- Split View: Left Conversation | Right Tool Trace -->
+          <div class="copilot-split">
+            <section class="card copilot-chat-card">
+              <div class="card-header">
+                <div>
+                  <h2 class="card-title">Financial Operations Copilot</h2>
+                  <p class="card-subtitle">Every financial metric is computed via deterministic SQL &amp; Python tools</p>
+                </div>
+                <button class="btn btn-xs btn-ghost" type="button" id="btn-clear-chat">New Thread</button>
+              </div>
+
+              <div class="chat-messages" id="copilot-messages">
+                <div class="chat-welcome">
+                  <div class="chat-welcome-icon" aria-hidden="true">
+                    <svg width="24" height="24" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.65">
+                      <path d="M10 2.5L11.7 7.1L16.5 8.8L11.7 10.5L10 15.1L8.3 10.5L3.5 8.8L8.3 7.1L10 2.5Z" />
+                    </svg>
+                  </div>
+                  <h3>Grounded AI Financial Analyst</h3>
+                  <p>Ask any question about budget variance, anomalous vendor charges, duplicate invoices, or SaaS spend optimization. Inspect live SQL &amp; tool traces on the right.</p>
+                </div>
+              </div>
+
+              <form class="chat-composer" id="copilot-form">
+                <textarea id="copilot-input" class="chat-input" rows="2" aria-label="Ask AI Operations Copilot" placeholder="Ask about department variance, anomalies, duplicates, or SaaS savings... (Enter to send)"></textarea>
+                <button class="btn btn-primary" type="submit" id="btn-copilot-send">
+                  <span>Ask Copilot</span>
+                  <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 10H16M11 5L16 10L11 15" />
+                  </svg>
+                </button>
+              </form>
+            </section>
+
+            <section class="card copilot-trace-card">
+              <div class="card-header">
+                <div>
+                  <h2 class="card-title">Live Tool-Call &amp; SQL Trace</h2>
+                  <p class="card-subtitle" id="trace-subtitle">Deterministic execution audit trail</p>
+                </div>
+                <span class="pill pill-indigo tabular" id="trace-step-count">0 steps</span>
+              </div>
+
+              <div class="trace-body" id="copilot-trace-body">
+                <div class="trace-empty">
+                  <div class="trace-empty-title">Registered Grounded Tools</div>
+                  <p class="trace-empty-desc">When you ask a question, the agent invokes deterministic tools against SQLite and streams the exact SQL, parameters, latency, and output summary here.</p>
+                  <ul class="tool-catalog">
+                    <li><code>query_sql_readonly</code><span>Executes guarded SQL queries</span></li>
+                    <li><code>compute_department_variance</code><span>Budget, actuals &amp; EAC math</span></li>
+                    <li><code>detect_anomalies</code><span>Z-score spikes &amp; duplicate audit</span></li>
+                    <li><code>check_subscriptions</code><span>Price hikes &amp; &gt;90d idle SaaS</span></li>
+                    <li><code>draft_executive_brief</code><span>Structured FinOps briefing</span></li>
+                  </ul>
+                </div>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <!-- ==================== TAB 4: AUTOMATION WORKFLOWS ==================== -->
+        <section class="tab-panel" id="panel-workflows" role="tabpanel" aria-labelledby="nav-workflows" hidden>
+          <!-- 3 Workflow Pipeline Cards -->
+          <div class="workflow-cards-grid" id="workflow-cards-grid">
+            <div class="card"><div class="empty-state">Loading automation workflows...</div></div>
+          </div>
+
+          <!-- Live Run Output Viewer -->
+          <section class="card workflow-output-card" id="workflow-output-section">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title" id="wf-output-title">Live Pipeline Execution Output</h2>
+                <p class="card-subtitle" id="wf-output-subtitle">Run any workflow above or click a historical run below to inspect steps, executive brief &amp; Slack/Webhook JSON</p>
+              </div>
+              <div class="wf-output-actions" id="wf-output-actions" hidden>
+                <span class="pill pill-emerald tabular" id="wf-output-duration">0 ms</span>
+                <button class="btn btn-ghost btn-sm" type="button" id="btn-copy-brief">Copy Markdown</button>
+                <button class="btn btn-ghost btn-sm" type="button" id="btn-download-brief">Download .md</button>
+              </div>
+            </div>
+
+            <div class="wf-output-empty" id="wf-output-empty">
+              <p>Select a workflow card and click <strong>Run Pipeline</strong> (or use <strong>Run Monthly Close</strong> in the header) to execute live against SQLite.</p>
+            </div>
+
+            <div class="wf-output-split" id="wf-output-split" hidden>
+              <!-- Left: Execution Timeline -->
+              <div class="wf-timeline-pane">
+                <div class="pane-label">Step-by-Step Execution Timeline</div>
+                <ol class="step-timeline" id="wf-step-timeline"></ol>
+              </div>
+
+              <!-- Right: Brief vs Webhook Payload Tabs -->
+              <div class="wf-artifact-pane">
+                <div class="segmented-bar">
+                  <div class="segmented-tabs" role="tablist" aria-label="Workflow output artifacts">
+                    <button class="seg-tab active" type="button" role="tab" aria-selected="true" aria-controls="wf-brief-view" tabindex="0" data-wf-view="brief" id="seg-wf-brief">Generated Executive Brief</button>
+                    <button class="seg-tab" type="button" role="tab" aria-selected="false" aria-controls="wf-json-view" tabindex="-1" data-wf-view="webhook" id="seg-wf-webhook">Webhook / Slack JSON Payload</button>
+                  </div>
+                  <button class="btn btn-xs btn-ghost" type="button" id="btn-copy-webhook" hidden>Copy JSON</button>
+                </div>
+
+                <div class="wf-brief-view markdown-body" id="wf-brief-view" role="tabpanel" aria-labelledby="seg-wf-brief"></div>
+                <pre class="wf-json-view" id="wf-json-view" role="tabpanel" aria-labelledby="seg-wf-webhook" hidden></pre>
+              </div>
+            </div>
+          </section>
+
+          <!-- Persistent Run History Table -->
+          <section class="card">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">Persistent Workflow Run History</h2>
+                <p class="card-subtitle">Click any completed run to inspect its generated executive brief and webhook payload</p>
+              </div>
+              <span class="pill pill-neutral tabular" id="wf-history-count">0 runs</span>
+            </div>
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Run ID</th>
+                    <th>Workflow</th>
+                    <th>Executed At</th>
+                    <th class="num">Duration</th>
+                    <th>Summary</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="wf-history-body">
+                  <tr><td colspan="6" class="empty-cell">No workflow runs recorded yet.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
+        <!-- ==================== TAB 5: AI EVALS & RELIABILITY ==================== -->
+        <section class="tab-panel" id="panel-evals" role="tabpanel" aria-labelledby="nav-evals" hidden>
+          <section class="card evals-hero-card">
+            <div class="evals-hero-left">
+              <div class="eval-gauge-box" id="chart-eval-gauge"></div>
+              <div class="evals-hero-meta">
+                <div class="evals-eyebrow">AUTOMATED RELIABILITY HARNESS</div>
+                <h2 class="evals-headline" id="evals-headline">Deterministic AI Eval Suite</h2>
+                <p class="evals-subtext" id="evals-subtext">Verifies numerical faithfulness, SQL read-only guardrails, anomaly recall, duplicate detection &amp; structured output schemas.</p>
+                <div class="evals-stats-row">
+                  <div class="eval-stat">
+                    <span class="eval-stat-label">Tests Passed</span>
+                    <span class="eval-stat-val tabular" id="eval-stat-passed">-- / --</span>
+                  </div>
+                  <div class="eval-stat">
+                    <span class="eval-stat-label">Avg Latency</span>
+                    <span class="eval-stat-val tabular" id="eval-stat-latency">-- ms</span>
+                  </div>
+                  <div class="eval-stat">
+                    <span class="eval-stat-label">Last Run</span>
+                    <span class="eval-stat-val tabular" id="eval-stat-ran-at">Not run yet</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="evals-hero-right">
+              <button class="btn btn-primary" type="button" id="btn-run-evals">
+                <svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M10 2.5L16.5 5V9.8C16.5 13.9 13.7 16.9 10 18.2C6.3 16.9 3.5 13.9 3.5 9.8V5L10 2.5Z" />
+                  <path d="M7.2 10.2L9.2 12.2L13 8" />
+                </svg>
+                <span>Run Eval Suite</span>
+              </button>
+            </div>
+          </section>
+
+          <!-- Category Breakdown Pills -->
+          <div class="eval-category-grid" id="eval-category-grid"></div>
+
+          <!-- Detailed Eval Cases Table -->
+          <section class="card">
+            <div class="card-header">
+              <div>
+                <h2 class="card-title">Eval Test Cases</h2>
+                <p class="card-subtitle" id="eval-cases-subtitle">Live assertion outcomes against ground-truth SQLite state</p>
+              </div>
+              <div class="card-header-right">
+                <button class="btn btn-xs btn-ghost" type="button" id="btn-clear-eval-filter" hidden>Show All Categories</button>
+                <span class="pill pill-neutral tabular" id="eval-cases-count">0 cases</span>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Category</th>
+                    <th>Test Case</th>
+                    <th>Expected</th>
+                    <th>Actual</th>
+                    <th class="num">Latency</th>
+                    <th>Result</th>
+                  </tr>
+                </thead>
+                <tbody id="eval-cases-body">
+                  <tr><td colspan="7" class="empty-cell">Click <strong>Run Eval Suite</strong> to execute all automated verification cases.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- Global Floating SVG Chart Tooltip -->
+  <div class="chart-tooltip" id="chart-tooltip" role="tooltip" hidden></div>
+
+  <!-- Toast Notification Stack -->
+  <div class="toast-stack" id="toast-stack" aria-live="polite" aria-atomic="false"></div>
+
+  <script src="charts.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+tx_date,department,vendor,category,amount,invoice_id,description
+2025-12-03,Engineering,AWS Cloud Services,Cloud Infrastructure,21400.00,INV-2025-1281,December production compute baseline
+2025-12-05,Engineering,GitHub Enterprise,DevTools,19200.00,INV-2025-1282,Q4 enterprise seat expansion and actions minutes
+2025-12-07,Marketing,HubSpot,MarTech,14600.00,INV-2025-1283,December marketing automation platform billing
+2025-12-09,Sales,Salesforce,CRM,14900.00,INV-2025-1284,Q4 sales cloud license reconciliation
+2025-12-11,Operations,Rippling,HR & Payroll,13800.00,INV-2025-1285,December payroll operations and benefits platform
+2025-12-12,G&A,Okta,Security & IAM,12900.00,INV-2025-1286,Q4 zero-trust SSO and identity audit seats
+2025-12-14,Marketing,LinkedIn Marketing,Demand Gen,15400.00,INV-2025-1287,Enterprise ABM retargeting campaign
+2025-12-16,Engineering,AWS Cloud Services,Cloud Infrastructure,18450.00,INV-2025-0742,Duplicate re-submission of July cloud invoice
+2025-12-17,Marketing,SignalBoost Media,Agency & Events,14200.00,INV-2025-1019,Duplicate agency billing from October campaign
+2025-12-18,Engineering,AWS Cloud Services,Cloud Infrastructure,64200.00,INV-2025-1288,Unbudgeted Q4 GPU inference cluster expansion spike
+2025-12-19,Operations,FedEx Logistics,Fulfillment,38500.00,INV-2025-1291,Emergency Q4 expedited air freight surcharge spike
+2025-12-20,Sales,Gong.io,Revenue Intel,13400.00,INV-2025-1292,Q4 conversation intelligence seat true-up
+2025-12-22,G&A,Cooley LLP,Legal & Compliance,14100.00,INV-2025-1293,Year-end commercial contract review
+2025-12-23,Operations,NetSuite ERP,Finance Systems,14500.00,INV-2025-1294,Annual close module and sandbox support
